@@ -6,7 +6,7 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.port = process.env.PORT;//hago visible el acceso al puerto
+        this.port = process.env.PORT || 3000;//hago visible el acceso al puerto
         this.usuariosPatch = '/api/usuarios';
         
         // llamo el método middlewares desde el constructor
