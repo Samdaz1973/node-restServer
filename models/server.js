@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');//se importa el paquete o dependencia
+const { dbConnection } = require('../database/config');
+
 
 // Clase para administrar mi servidor
 class Server {
@@ -8,12 +10,20 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;//hago visible el acceso al puerto
         this.usuariosPatch = '/api/usuarios';
-        
+
+        // llamo el método conectarDB
+        this.conectarDb();
+                
         // llamo el método middlewares desde el constructor
         this.middlewares();
 
         // llamo el método rutas desde el constructor
         this.routes();
+    }
+
+    //conectar a base de datos; aquí llamo la función de conexión con un método
+    async conectarDb() {
+        await dbConnection();
     }
 
     // creo un método Middlewares; actúa como puente para añadir otras funcionalidades al webserver; en este caso se va a ejecutar cuando lancemos, levantemos o ejecutemos el servidor
