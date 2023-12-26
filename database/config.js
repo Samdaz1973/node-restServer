@@ -4,7 +4,7 @@ const dbConnection = async() => {//como es una conexión a base de datos que pue
     try {//la función connect contiene una promesa por eso puedo usar el await
         await mongoose.connect(process.env.MONGODB_CNN, {//url del .env
             useNewUrlParser: true,//grupo de objetos necesarios
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
             useCreateIndex: true,
             useFindAndModify: false
         });
