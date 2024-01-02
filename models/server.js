@@ -9,7 +9,9 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;//hago visible el acceso al puerto
+
         this.usuariosPatch = '/api/usuarios';
+        this.authPath = '/api/auth';//Nueva ruta para autenticación y logueo
 
         // llamo el método conectarDB
         this.conectarDb();
@@ -43,6 +45,7 @@ class Server {
         // a este middleware le asigno una ruta pero también el directorio de routes
         /* this.app.use('/api/usuarios', require('../routes/user')); */
         // puedo usar el atributo usuariosPath para ponerla en la ruta
+        this.app.use(this.authPath, require('../routes/auth'));//ruta para autenticación y logueo
         this.app.use(this.usuariosPatch, require('../routes/usuarios'));
     }
 

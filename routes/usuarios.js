@@ -2,7 +2,23 @@ const {Router} = require('express');//desestructuramos una función que viene de
 const { check } = require('express-validator');
 //const Role = require('../models/role'); //importo el model
 
+
+/* //no importo estas funciones una por una sino como un objeto, para eso creo un nuevo archivo en middlewares que los agrupe todos y luego los vuelvo a importar aquí
 const {validarCampos }= require('../middlewares/validar-campos')
+const { validarJWT } = require('../middlewares/validar-jwt');
+const { esAdminRole, tieneRole } = require('../middlewares/validar-roles');
+las importo como un objeto 👇
+*/
+
+//importo el archivo index del directorio middlewares, con cada una de sus funciones
+const {
+        validarCampos,
+        validarJWT,
+        esAdminRole,
+        tieneRole
+} = require('../middlewares');
+
+
 const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
 
 const { usuariosGet, 
@@ -44,11 +60,16 @@ router.post('/', [//el check es un middlewares que es una función que se ejecut
 ], usuariosPost);
 
 router.delete('/:id',[
+        validarJWT,
+        //esAdminRole,//este middleware forza a que tiene que ser administrador
+        //si quiero poner una condición más flexible y compartida uso el siguiente
+        tieneRole('ADMIN_ROLE', 'VENTAS_ROLE', 'OTRO_ROLE'),
         check('id', 'No es un ID válido').isMongoId(),
         check('id').custom(existeUsuarioPorId),
         validarCampos
 ], usuariosDelete);
 
 router.patch('/', usuariosPatch);
+
 
 module.exports = router;

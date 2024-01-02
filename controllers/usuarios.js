@@ -106,9 +106,10 @@ const usuariosDelete = async (req, res = response) => {
 
     //para borrar usando el cambio de estado del usuario
     const usuario = await Usuario.findByIdAndUpdate(id, {estado: false});
-
-    res.json({
-        usuario
+    //const usuarioAutenticado = req.usuario;//recupero al usuario autenticado de la request.; una vez hechas las autenticaciones en el validar-jwt no es necesario recuperar esta información
+    res.json({//envío los datos recuperados al documento json
+        usuario,
+        //usuarioAutenticado//lo comento porque la eliminación sólo debería mostrarme cuál fue el usuario modificado o eliminado con el estado en false
         //msg: 'delete API - usuariosDelete'
         //id no retorno el id sino el usuario que ha sido borrado
     });

@@ -41,8 +41,9 @@ const UsuarioSchema = Schema({
 
 //método para borrar la contraseña del documento JSON; para hacerlo global, llamamos el UsuarioSchema de mongoose; debe ser una función normal porque vamos a usar el objeto this, no puede ser una función flecha, porque mantiene afuera a lo que apunta el this.
 UsuarioSchema.methods.toJSON = function() {//estamos sobreescribiendo el documento JSON que se guarda en la base de datos
-    //desestructuramos lo que viene del this.toObject; me va a generar mi instancia pero con sus valores respectivos, como si fuera un objeto de javaScript; voy a sacar del documento JSON dos datos la versión y el password; estoy sacando estos dos y todos los demás se van a guardar en usuario
-    const {__v, password, ...usuario } = this.toObject();
+    //desestructuramos lo que viene del this.toObject; me va a generar mi instancia pero con sus valores respectivos, como si fuera un objeto de javaScript; voy a sacar del documento JSON dos datos la versión y el password; estoy sacando estos tres y todos los demás se van a guardar en usuario
+    const {__v, password, _id, ...usuario } = this.toObject();
+    usuario.uid = _id;//convierto el _id en uid visualmente en postman
     return usuario;
 
 }
